@@ -183,6 +183,55 @@
             box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3) !important;
         }
 
+        .share-button {
+            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%) !important;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3) !important;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .share-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .share-option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .share-option-btn.message {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .share-option-btn.email {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        }
+
+        .share-option-btn.kakao {
+            background: linear-gradient(135deg, #FEE500 0%, #F5DC00 100%);
+            color: #3C1E1E;
+        }
+
+        .share-cancel-btn {
+            background: linear-gradient(135deg, #9E9E9E 0%, #757575 100%) !important;
+            box-shadow: 0 4px 15px rgba(117, 117, 117, 0.3) !important;
+        }
+
         #searchResults {
             border: 2px solid #e0e0e0;
             border-radius: 12px;
@@ -391,13 +440,6 @@
             to { opacity: 0; }
         }
 
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
         /* 카메라 스캔 오버레이 */
         #cameraOverlay {
             position: fixed;
@@ -599,7 +641,7 @@
             }
 
             .action-buttons {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
             }
 
             /* 스크롤바 스타일 */
@@ -759,6 +801,7 @@ if ('serviceWorker' in navigator) {
         <div class="action-buttons">
             <button class="load-button" onclick="loadTextFile()">📂 Load</button>
             <button class="save-button" onclick="showSaveDialog()">💾 Save</button>
+            <button class="share-button" onclick="showShareDialog()">📤 Share</button>
         </div>
 
     <div id="qtyInput" class="qty-input">
@@ -779,6 +822,16 @@ if ('serviceWorker' in navigator) {
         <input type="text" id="fileName" placeholder="Enter file name">
         <button onclick="saveResults()">Save</button>
         <button onclick="document.getElementById('saveDialog').classList.remove('show')">Cancel</button>
+    </div>
+
+    <div id="shareDialog" class="qty-input">
+        <h3>Share Results</h3>
+        <div class="share-options">
+            <button class="share-option-btn message" onclick="shareViaMessage()">💬 메시지</button>
+            <button class="share-option-btn email" onclick="shareViaEmail()">✉️ 이메일</button>
+            <button class="share-option-btn kakao" onclick="shareViaKakao()">💬 카카오톡</button>
+        </div>
+        <button class="share-cancel-btn" onclick="closeShareDialog()">Cancel</button>
     </div>
 
     <!-- 휴대폰 카메라 바코드 스캔 오버레이 -->
@@ -1504,6 +1557,81 @@ if ('serviceWorker' in navigator) {
                  div.classList.add('fade-out');
                  setTimeout(() => div.remove(), 2000);
              }, 2000);
+        }
+
+        function getShareContent() {
+            const resultItems = document.getElementById('totalResults').querySelectorAll('.result-item');
+            const results = Array.from(resultItems)
+                .map(element => `${element.dataset.itemno} - ${element.dataset.qty}`)
+                .join('\n');
+            return results ? `ITEM - QTY\n${results}` : '';
+        }
+
+        function showShareFeedback(message, color = '#4CAF50') {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.style.color = color;
+            div.style.justifyContent = 'center';
+            div.textContent = message;
+            document.getElementById('results').appendChild(div);
+            setTimeout(() => {
+                div.classList.add('fade-out');
+                setTimeout(() => div.remove(), 2000);
+            }, 2000);
+        }
+
+        function showShareDialog() {
+            const resultItems = document.getElementById('totalResults').querySelectorAll('.result-item');
+            if (resultItems.length === 0) {
+                showShareFeedback('공유할 결과가 없습니다!', '#d32f2f');
+                return;
+            }
+            document.getElementById('shareDialog').classList.add('show');
+        }
+
+        function closeShareDialog() {
+            document.getElementById('shareDialog').classList.remove('show');
+        }
+
+        function shareViaMessage() {
+            const content = getShareContent();
+            if (!content) return;
+
+            const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+            const smsUrl = isIOS
+                ? `sms:&body=${encodeURIComponent(content)}`
+                : `sms:?body=${encodeURIComponent(content)}`;
+
+            closeShareDialog();
+            window.location.href = smsUrl;
+        }
+
+        function shareViaEmail() {
+            const content = getShareContent();
+            if (!content) return;
+
+            closeShareDialog();
+            window.location.href = `mailto:?subject=${encodeURIComponent('Ultra Order Results')}&body=${encodeURIComponent(content)}`;
+        }
+
+        async function shareViaKakao() {
+            const content = getShareContent();
+            if (!content) return;
+
+            closeShareDialog();
+
+            try {
+                await navigator.clipboard.writeText(content);
+            } catch (e) {
+                console.warn('클립보드 복사 실패:', e);
+            }
+
+            const kakaoUrl = `kakaotalk://send?text=${encodeURIComponent(content)}`;
+            window.location.href = kakaoUrl;
+
+            setTimeout(() => {
+                showShareFeedback('내용이 복사되었습니다. 카카오톡 채팅창에 붙여넣기 해주세요.');
+            }, 500);
         }
 
         function loadTextFile() {
