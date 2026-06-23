@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ultra-order-cache-v5';
+const CACHE_NAME = 'ultra-order-cache-v6';
 
 const FILES_TO_CACHE = [
   './',
