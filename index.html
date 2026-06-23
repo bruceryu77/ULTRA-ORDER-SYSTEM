@@ -880,6 +880,8 @@ if ('serviceWorker' in navigator) {
             [5207, 6206],
             [6207, 7412],
         ];
+        const SHEET_TAIL_CHUNK_SIZE = 1000;
+        const SHEET_TAIL_START_ROW = 7413;
 
         function parseGvizJson(text) {
             const start = text.indexOf('{');
@@ -966,6 +968,23 @@ if ('serviceWorker' in navigator) {
             });
         }
 
+        async function fetchTailSheetChunks(onProgress) {
+            const rows = [];
+            let startRow = SHEET_TAIL_START_ROW;
+
+            while (true) {
+                const endRow = startRow + SHEET_TAIL_CHUNK_SIZE - 1;
+                if (onProgress) onProgress(startRow, endRow);
+                const chunkRows = await fetchSheetChunk(startRow, endRow);
+                if (!chunkRows.length) break;
+                rows.push(...chunkRows);
+                if (chunkRows.length < SHEET_TAIL_CHUNK_SIZE) break;
+                startRow = endRow + 1;
+            }
+
+            return rows;
+        }
+
         async function loadFromGoogleSheet(silent = false) {
             const dataInfo = document.getElementById('dataInfo');
             dataInfo.textContent = '📊 Google Sheet에서 데이터 로딩 중...';
@@ -982,6 +1001,11 @@ if ('serviceWorker' in navigator) {
                     const chunkRows = await fetchSheetChunk(startRow, endRow);
                     excelData.push(...chunkRows);
                 }
+
+                const tailRows = await fetchTailSheetChunks((startRow, endRow) => {
+                    dataInfo.textContent = `📊 Google Sheet 추가 로딩 중... (${startRow}~${endRow}행)`;
+                });
+                excelData.push(...tailRows);
 
                 dataInfo.textContent = `✅ ${excelData.length}개 항목 로드 중...`;
                 dataInfo.style.color = '#4CAF50';
