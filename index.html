@@ -1040,8 +1040,8 @@ if ('serviceWorker' in navigator) {
         <h3>Enter Quantity</h3>
         <input type="number" id="qtyValue" min="1" placeholder="Enter quantity">
         <div class="qty-actions">
-            <button onclick="confirmQty()">Confirm</button>
             <button class="cancel-button" onclick="cancelQty()">Cancel</button>
+            <button onclick="confirmQty()">Confirm</button>
         </div>
     </div>
 
@@ -1049,8 +1049,8 @@ if ('serviceWorker' in navigator) {
         <div class="manual-entry-warning warning-icon" id="manualConfirmWarning"></div>
         <p class="manual-entry-prompt">등록되지 않은 바코드입니다.<br>수동으로 ITEM과 QTY를 입력하시겠습니까?</p>
         <div class="qty-actions">
-            <button onclick="acceptManualEntryPrompt()">예</button>
             <button class="cancel-button" onclick="declineManualEntryPrompt()">아니오</button>
+            <button onclick="acceptManualEntryPrompt()">예</button>
         </div>
     </div>
 
@@ -1060,8 +1060,8 @@ if ('serviceWorker' in navigator) {
         <input type="text" id="manualItemNo" class="manual-item-input" placeholder="ITEM">
         <input type="number" id="manualQtyValue" min="1" placeholder="수량 (QTY)">
         <div class="qty-actions">
-            <button onclick="confirmManualEntry()">Confirm</button>
             <button class="cancel-button" onclick="cancelManualEntry()">Cancel</button>
+            <button onclick="confirmManualEntry()">Confirm</button>
         </div>
     </div>
 
