@@ -257,6 +257,148 @@
             background: #c8e6c9;
         }
 
+        .search-popup-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+            padding: 16px;
+        }
+
+        .search-popup-overlay.show {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .search-popup {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            width: 100%;
+            max-width: 720px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .search-popup-header {
+            padding: 18px 20px 12px;
+            border-bottom: 2px solid #e8f5e9;
+        }
+
+        .search-popup-header h3 {
+            margin: 0 0 6px;
+            color: #2e7d32;
+            font-size: 1.2em;
+        }
+
+        .search-popup-subtitle {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .search-popup-table-wrap {
+            overflow: auto;
+            flex: 1;
+        }
+
+        .search-popup-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+        }
+
+        .search-popup-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .search-popup-table th {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            color: #2e7d32;
+            font-weight: 700;
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid #4CAF50;
+            white-space: nowrap;
+        }
+
+        .search-popup-table td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+            line-height: 1.35;
+        }
+
+        .search-popup-row {
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .search-popup-row:hover,
+        .search-popup-row:active {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+        }
+
+        .search-popup-table .col-item {
+            width: 72px;
+            font-weight: 600;
+            color: #2e7d32;
+            white-space: nowrap;
+        }
+
+        .search-popup-table .col-barcode {
+            width: 120px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.92em;
+            word-break: break-all;
+        }
+
+        .search-popup-table .col-desc {
+            word-break: break-word;
+        }
+
+        .search-popup-empty {
+            padding: 28px 20px;
+            text-align: center;
+            color: #888;
+        }
+
+        .search-popup-footer {
+            padding: 14px 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .search-popup-footer button {
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .search-popup {
+                max-height: 90vh;
+            }
+
+            .search-popup-table {
+                font-size: 0.82em;
+            }
+
+            .search-popup-table th,
+            .search-popup-table td {
+                padding: 10px 8px;
+            }
+        }
+
         .highlight {
             background-color: #FFEB3B;
             padding: 2px 4px;
@@ -429,6 +571,36 @@
 
         .warning-icon::before {
             content: "⚠️ ";
+        }
+
+        .manual-entry-warning {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border: 2px solid #ff9800;
+            color: #e65100;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.95em;
+            word-break: break-all;
+        }
+
+        .manual-entry-prompt {
+            margin: 0 0 16px;
+            text-align: center;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .qty-input input[type="text"].manual-item-input {
+            width: 100%;
+            padding: 15px;
+            margin: 0 0 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
         }
 
         .fade-out {
@@ -737,6 +909,46 @@
                 background: #333;
             }
 
+            .search-popup {
+                background: #2d2d2d;
+            }
+
+            .search-popup-header {
+                border-bottom-color: #444;
+            }
+
+            .search-popup-subtitle {
+                color: #aaa;
+            }
+
+            .search-popup-table th {
+                background: linear-gradient(135deg, #1b3a1f 0%, #1e3d22 100%);
+                color: #81c784;
+                border-bottom-color: #4CAF50;
+            }
+
+            .search-popup-table td {
+                border-bottom-color: #444;
+                color: #e0e0e0;
+            }
+
+            .search-popup-row:hover,
+            .search-popup-row:active {
+                background: #333;
+            }
+
+            .search-popup-table .col-item {
+                color: #81c784;
+            }
+
+            .search-popup-empty {
+                color: #aaa;
+            }
+
+            .search-popup-footer {
+                border-top-color: #444;
+            }
+
             .qty-input {
                 background: #2d2d2d;
             }
@@ -752,6 +964,22 @@
 
             .scanned-item-info .item-desc {
                 color: #e0e0e0;
+            }
+
+            .manual-entry-warning {
+                background: linear-gradient(135deg, #3e2723 0%, #4e342e 100%);
+                border-color: #ff9800;
+                color: #ffcc80;
+            }
+
+            .manual-entry-prompt {
+                color: #ccc;
+            }
+
+            .qty-input input[type="text"].manual-item-input {
+                background: #2d2d2d;
+                color: #fff;
+                border-color: #ff9800;
             }
 
             h3 {
@@ -788,7 +1016,7 @@ if ('serviceWorker' in navigator) {
         </div>
         
         <div class="button-row">
-            <button onclick="searchBarcode()">🔍 Search</button>
+            <button onclick="handleSearchClick()">🔍 Search</button>
             <button onclick="startCameraScan()">📷 카메라 스캔</button>
         </div>
         
@@ -817,6 +1045,26 @@ if ('serviceWorker' in navigator) {
         </div>
     </div>
 
+    <div id="manualEntryConfirmDialog" class="qty-input">
+        <div class="manual-entry-warning warning-icon" id="manualConfirmWarning"></div>
+        <p class="manual-entry-prompt">등록되지 않은 바코드입니다.<br>수동으로 ITEM과 QTY를 입력하시겠습니까?</p>
+        <div class="qty-actions">
+            <button onclick="acceptManualEntryPrompt()">예</button>
+            <button class="cancel-button" onclick="declineManualEntryPrompt()">아니오</button>
+        </div>
+    </div>
+
+    <div id="manualEntryDialog" class="qty-input">
+        <div class="manual-entry-warning warning-icon" id="manualEntryWarning"></div>
+        <h3>수동 입력</h3>
+        <input type="text" id="manualItemNo" class="manual-item-input" placeholder="ITEM">
+        <input type="number" id="manualQtyValue" min="1" placeholder="수량 (QTY)">
+        <div class="qty-actions">
+            <button onclick="confirmManualEntry()">Confirm</button>
+            <button class="cancel-button" onclick="cancelManualEntry()">Cancel</button>
+        </div>
+    </div>
+
     <div id="saveDialog" class="qty-input">
         <h3>Save Results</h3>
         <input type="text" id="fileName" placeholder="Enter file name">
@@ -832,6 +1080,31 @@ if ('serviceWorker' in navigator) {
             <button class="share-option-btn kakao" onclick="shareViaKakao()">💬 카카오톡</button>
         </div>
         <button class="share-cancel-btn" onclick="closeShareDialog()">Cancel</button>
+    </div>
+
+    <div id="searchPopup" class="search-popup-overlay" onclick="closeSearchPopupOnBackdrop(event)">
+        <div class="search-popup" role="dialog" aria-modal="true" aria-labelledby="searchPopupTitle">
+            <div class="search-popup-header">
+                <h3 id="searchPopupTitle">🔎 검색 결과</h3>
+                <p id="searchPopupSubtitle" class="search-popup-subtitle"></p>
+            </div>
+            <div class="search-popup-table-wrap">
+                <table class="search-popup-table">
+                    <thead>
+                        <tr>
+                            <th>ITEM</th>
+                            <th>BARCODE</th>
+                            <th>DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="searchPopupBody"></tbody>
+                </table>
+                <div id="searchPopupEmpty" class="search-popup-empty" style="display: none;"></div>
+            </div>
+            <div class="search-popup-footer">
+                <button class="share-cancel-btn" type="button" onclick="closeSearchPopup()">닫기</button>
+            </div>
+        </div>
     </div>
 
     <!-- 휴대폰 카메라 바코드 스캔 오버레이 -->
@@ -859,6 +1132,7 @@ if ('serviceWorker' in navigator) {
         let isScanning = false;
         let isDataReady = false;
         let pendingScanBarcode = null;
+        let pendingManualBarcode = null;
         
         // Google Sheet ID (ULTRA)
         const GOOGLE_SHEET_ID = '1n766bsvpcs0Fd07l81jMykVRBLK8ZIiF-RFtmy5-Aes';
@@ -882,6 +1156,9 @@ if ('serviceWorker' in navigator) {
         ];
         const SHEET_TAIL_CHUNK_SIZE = 1000;
         const SHEET_TAIL_START_ROW = 7413;
+        const TEXT_SEARCH_RESULT_LIMIT = 20;
+        const TEXT_SEARCH_INLINE_LIMIT = 15;
+        const TEXT_SEARCH_MIN_SIMILARITY = 55;
 
         function parseGvizJson(text) {
             const start = text.indexOf('{');
@@ -1036,80 +1313,198 @@ if ('serviceWorker' in navigator) {
         });
 
         document.getElementById('textSearchInput').addEventListener('input', function(e) {
-            const searchText = e.target.value.trim().toLowerCase();
-            const searchResults = document.getElementById('searchResults');
-            
+            const searchText = e.target.value.trim();
+
             if (searchTimeout) {
                 clearTimeout(searchTimeout);
             }
 
             if (!searchText) {
-                searchResults.style.display = 'none';
+                document.getElementById('searchResults').style.display = 'none';
+                document.getElementById('searchResults').innerHTML = '';
                 return;
             }
 
             searchTimeout = setTimeout(() => {
-                performSearch(searchText);
+                renderInlineSearchResults(searchText);
             }, 300);
         });
 
-        function performSearch(searchText) {
-            if (!excelData) {
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function highlightSearchText(text, searchText) {
+            const safeText = escapeHtml(text);
+            if (!searchText) return safeText;
+
+            const words = searchText.trim().split(/\s+/).filter(Boolean);
+            if (!words.length) return safeText;
+
+            const pattern = words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+            return safeText.replace(
+                new RegExp(`(${pattern})`, 'gi'),
+                match => `<span class="highlight">${match}</span>`
+            );
+        }
+
+        function itemMatchesTextSearch(item, queryLower) {
+            const description = getItemField(item, ['DESCRIPTION', 'Description', 'description']).toLowerCase();
+            if (!description) return false;
+
+            if (description.includes(queryLower)) return true;
+
+            const words = queryLower.split(/\s+/).filter(word => word.length >= 2);
+            if (words.length > 1 && words.every(word => description.includes(word))) {
+                return true;
+            }
+
+            return calculateSimilarity(queryLower, description) >= TEXT_SEARCH_MIN_SIMILARITY;
+        }
+
+        function findSimilarSearchItems(searchText, limit = TEXT_SEARCH_RESULT_LIMIT) {
+            const query = searchText.trim().toLowerCase();
+            if (!query || !excelData) return [];
+
+            const results = [];
+            for (let i = 0; i < excelData.length && results.length < limit; i++) {
+                if (itemMatchesTextSearch(excelData[i], query)) {
+                    results.push(excelData[i]);
+                }
+            }
+            return results;
+        }
+
+        function renderInlineSearchResults(searchText) {
+            const searchResults = document.getElementById('searchResults');
+
+            if (!excelData || !isDataReady) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const query = searchText.trim();
+            if (!query) {
+                searchResults.style.display = 'none';
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            const results = findSimilarSearchItems(query, TEXT_SEARCH_INLINE_LIMIT);
+            searchResults.innerHTML = '';
+
+            if (!results.length) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            results.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+
+                const itemNo = getItemField(item, ['ITEM', 'Item', 'item', '아이템번호']);
+                const description = getItemField(item, ['DESCRIPTION', 'Description', 'description']);
+                const highlightedDesc = highlightSearchText(description, query);
+
+                div.innerHTML = itemNo
+                    ? `${escapeHtml(itemNo)} - ${highlightedDesc}`
+                    : highlightedDesc;
+
+                div.addEventListener('click', () => selectSearchItem(item));
+                searchResults.appendChild(div);
+            });
+
+            searchResults.style.display = 'block';
+        }
+
+        function selectSearchItem(item) {
+            currentItem = item;
+            pendingScanBarcode = null;
+            closeSearchPopup();
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchResults').innerHTML = '';
+            document.getElementById('textSearchInput').value = '';
+            showQtyInput();
+        }
+
+        function openTextSearchPopup(searchText) {
+            if (!excelData || !isDataReady) {
                 alert('데이터를 불러오는 중입니다. 잠시 후 다시 시도해주세요.');
                 return;
             }
 
-            const searchResults = document.getElementById('searchResults');
-            searchResults.innerHTML = '';
-            let results = [];
-
-            // DESCRIPTION 컬럼에서만 검색
-            for (let i = 0; i < excelData.length && results.length < 15; i++) {
-                const item = excelData[i];
-                const description =
-                    (item.DESCRIPTION || item.Description || item.description || '').toString();
-                const descLower = description.toLowerCase();
-
-                if (description && descLower.includes(searchText)) {
-                    results.push(item);
-                }
+            const query = searchText.trim();
+            if (!query) {
+                alert('검색어를 입력해주세요.');
+                return;
             }
 
-            if (results.length > 0) {
-                results.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'search-result-item';
+            const results = findSimilarSearchItems(query);
+            const popup = document.getElementById('searchPopup');
+            const subtitle = document.getElementById('searchPopupSubtitle');
+            const tbody = document.getElementById('searchPopupBody');
+            const emptyState = document.getElementById('searchPopupEmpty');
+            const table = tbody.closest('table');
 
-                    const itemNo = item.Item || item['아이템번호'] || item.item || item.ITEM || '';
-                    const description =
-                        (item.DESCRIPTION || item.Description || item.description || '').toString();
+            subtitle.textContent = `"${query}" 검색 · 구글시트 순서 · 최대 ${TEXT_SEARCH_RESULT_LIMIT}개`;
+            tbody.innerHTML = '';
 
-                    // DESCRIPTION 안에서만 하이라이트
-                    const highlightedDesc = description.replace(
-                        new RegExp(searchText, 'gi'),
-                        match => `<span class="highlight">${match}</span>`
-                    );
-
-                    const displayText = itemNo
-                        ? `${itemNo} - ${highlightedDesc}`
-                        : highlightedDesc;
-
-                    div.innerHTML = displayText;
-
-                    div.addEventListener('click', () => {
-                        currentItem = item;
-                        pendingScanBarcode = null;
-                        showQtyInput();
-                        searchResults.style.display = 'none';
-                        document.getElementById('textSearchInput').value = '';
-                    });
-
-                    searchResults.appendChild(div);
-                });
-
-                searchResults.style.display = 'block';
+            if (!results.length) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
+                emptyState.textContent = '일치하는 상품이 없습니다.';
             } else {
-                searchResults.style.display = 'none';
+                table.style.display = '';
+                emptyState.style.display = 'none';
+
+                results.forEach(item => {
+                    const itemNo = getItemField(item, ['ITEM', 'Item', 'item', '아이템번호']);
+                    const barcode = getItemField(item, ['BARCODE', 'Barcode', '바코드', 'barcode']);
+                    const description = getItemField(item, ['DESCRIPTION', 'Description', 'description']);
+
+                    const row = document.createElement('tr');
+                    row.className = 'search-popup-row';
+                    row.innerHTML = `
+                        <td class="col-item">${escapeHtml(itemNo)}</td>
+                        <td class="col-barcode">${escapeHtml(barcode)}</td>
+                        <td class="col-desc">${highlightSearchText(description, query)}</td>
+                    `;
+                    row.addEventListener('click', () => selectSearchItem(item));
+                    tbody.appendChild(row);
+                });
+            }
+
+            popup.classList.add('show');
+        }
+
+        function handleSearchClick() {
+            const textQuery = document.getElementById('textSearchInput').value.trim();
+            const barcode = document.getElementById('barcodeInput').value.trim().replace(/[\r\n\t]/g, '');
+
+            if (textQuery && !barcode) {
+                openTextSearchPopup(textQuery);
+                return;
+            }
+
+            searchBarcode();
+        }
+
+        function performSearch(searchText) {
+            renderInlineSearchResults(searchText);
+        }
+
+        function closeSearchPopup() {
+            document.getElementById('searchPopup').classList.remove('show');
+        }
+
+        function closeSearchPopupOnBackdrop(event) {
+            if (event.target.id === 'searchPopup') {
+                closeSearchPopup();
             }
         }
 
@@ -1232,6 +1627,18 @@ if ('serviceWorker' in navigator) {
             this.select();
         });
 
+        document.getElementById('manualItemNo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('manualQtyValue').focus();
+            }
+        });
+
+        document.getElementById('manualQtyValue').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmManualEntry();
+            }
+        });
+
         function findBarcodeMatch(scannedBarcode) {
             for (const key of getBarcodeLookupKeys(scannedBarcode)) {
                 const matchIndex = window.barcodeIndex.get(key);
@@ -1316,19 +1723,87 @@ if ('serviceWorker' in navigator) {
             }
 
             if (!found) {
-                const div = document.createElement('div');
-                div.className = 'result-item warning warning-icon';
-                div.textContent = `Barcode ${barcode} not found. (시트에 바코드가 등록된 상품만 스캔 가능)`;
-                document.getElementById('results').appendChild(div);
-                
-                setTimeout(() => {
-                    div.classList.add('fade-out');
-                    setTimeout(() => div.remove(), 2000);
-                }, 2000);
+                showBarcodeNotFoundWarning(barcode);
             }
 
             barcodeInput.value = '';
             barcodeInput.focus();
+        }
+
+        function showBarcodeNotFoundWarning(barcode) {
+            const div = document.createElement('div');
+            div.className = 'result-item warning warning-icon';
+            div.textContent = `BARCODE NOT FOUND: ${barcode}`;
+            document.getElementById('results').appendChild(div);
+
+            setTimeout(() => {
+                div.classList.add('fade-out');
+                setTimeout(() => div.remove(), 4000);
+            }, 4000);
+
+            pendingManualBarcode = barcode;
+            document.getElementById('manualConfirmWarning').textContent = `BARCODE NOT FOUND: ${barcode}`;
+            document.getElementById('manualEntryConfirmDialog').classList.add('show');
+        }
+
+        function acceptManualEntryPrompt() {
+            const barcode = pendingManualBarcode;
+            document.getElementById('manualEntryConfirmDialog').classList.remove('show');
+            if (!barcode) return;
+            showManualEntryDialog(barcode);
+        }
+
+        function declineManualEntryPrompt() {
+            pendingManualBarcode = null;
+            document.getElementById('manualEntryConfirmDialog').classList.remove('show');
+            document.getElementById('barcodeInput').focus();
+        }
+
+        function showManualEntryDialog(barcode) {
+            pendingManualBarcode = barcode;
+            document.getElementById('manualEntryWarning').textContent = `BARCODE NOT FOUND: ${barcode}`;
+            document.getElementById('manualItemNo').value = '';
+            document.getElementById('manualQtyValue').value = '';
+            document.getElementById('manualEntryDialog').classList.add('show');
+
+            setTimeout(() => {
+                document.getElementById('manualItemNo').focus();
+            }, 50);
+        }
+
+        function confirmManualEntry() {
+            const itemNo = document.getElementById('manualItemNo').value.trim();
+            const qty = document.getElementById('manualQtyValue').value;
+            const barcode = pendingManualBarcode;
+
+            if (!itemNo) {
+                alert('ITEM을 입력해주세요.');
+                return;
+            }
+
+            if (!qty || isNaN(parseInt(qty)) || parseInt(qty) <= 0) {
+                alert('수량을 입력해주세요.');
+                return;
+            }
+
+            if (barcode) {
+                window.scannedBarcodes.add(barcode);
+            }
+
+            addResultToDOM(itemNo, parseInt(qty), barcode);
+            closeManualEntryDialog();
+        }
+
+        function cancelManualEntry() {
+            closeManualEntryDialog();
+        }
+
+        function closeManualEntryDialog() {
+            document.getElementById('manualEntryDialog').classList.remove('show');
+            document.getElementById('manualItemNo').value = '';
+            document.getElementById('manualQtyValue').value = '';
+            pendingManualBarcode = null;
+            document.getElementById('barcodeInput').focus();
         }
 
         function getItemField(item, fields) {
