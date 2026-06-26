@@ -1133,6 +1133,7 @@ if ('serviceWorker' in navigator) {
         let isDataReady = false;
         let pendingScanBarcode = null;
         let pendingManualBarcode = null;
+        let suppressBeforeUnload = false;
         
         // Google Sheet ID (ULTRA)
         const GOOGLE_SHEET_ID = '1n766bsvpcs0Fd07l81jMykVRBLK8ZIiF-RFtmy5-Aes';
@@ -2092,6 +2093,11 @@ if ('serviceWorker' in navigator) {
             document.getElementById('shareDialog').classList.remove('show');
         }
 
+        function navigateForShare(url) {
+            suppressBeforeUnload = true;
+            window.location.href = url;
+        }
+
         function shareViaMessage() {
             const content = getShareContent();
             if (!content) return;
@@ -2102,7 +2108,7 @@ if ('serviceWorker' in navigator) {
                 : `sms:?body=${encodeURIComponent(content)}`;
 
             closeShareDialog();
-            window.location.href = smsUrl;
+            navigateForShare(smsUrl);
         }
 
         function shareViaEmail() {
@@ -2110,7 +2116,7 @@ if ('serviceWorker' in navigator) {
             if (!content) return;
 
             closeShareDialog();
-            window.location.href = `mailto:?subject=${encodeURIComponent('Ultra Order Results')}&body=${encodeURIComponent(content)}`;
+            navigateForShare(`mailto:?subject=${encodeURIComponent('Ultra Order Results')}&body=${encodeURIComponent(content)}`);
         }
 
         async function shareViaKakao() {
@@ -2126,7 +2132,7 @@ if ('serviceWorker' in navigator) {
             }
 
             const kakaoUrl = `kakaotalk://send?text=${encodeURIComponent(content)}`;
-            window.location.href = kakaoUrl;
+            navigateForShare(kakaoUrl);
 
             setTimeout(() => {
                 showShareFeedback('내용이 복사되었습니다. 카카오톡 채팅창에 붙여넣기 해주세요.');
@@ -2348,6 +2354,8 @@ if (isMobile) {
 
     // 새로고침 방지 기능 추가
     window.addEventListener('beforeunload', function(e) {
+        if (suppressBeforeUnload) return;
+
         const totalResults = document.getElementById('totalResults');
         const resultItems = totalResults.getElementsByClassName('result-item');
         
@@ -2356,6 +2364,10 @@ if (isMobile) {
             e.returnValue = '⚠️ 저장되지 않은 스캔 결과가 있습니다. 정말로 페이지를 새로고침하시겠습니까?';
             return e.returnValue;
         }
+    });
+
+    window.addEventListener('pageshow', function() {
+        suppressBeforeUnload = false;
     });
 
     </script>
