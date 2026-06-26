@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ultra-order-cache-v6';
+const CACHE_NAME = 'ultra-order-cache-v11';
 
 const FILES_TO_CACHE = [
   './',
@@ -37,3 +37,4 @@ self.addEventListener('fetch', event => {
     caches.match(event.request).then(response => response || fetch(event.request))
   );
 });
+
